@@ -35,6 +35,9 @@ jobs:
           --health-retries=5
     env:
       DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/ideaforge_test
+      PGDATABASE: ideaforge_test
+      PGUSER: postgres
+      PGPASSWORD: postgres
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
     steps:
       - uses: actions/checkout@v4
@@ -43,5 +46,5 @@ jobs:
           python-version: "3.14"
           cache: pip
       - run: pip install -e ".[dev]"
-      - run: psql "$DATABASE_URL" -c "CREATE EXTENSION IF NOT EXISTS vector;"
+      - run: psql -c "CREATE EXTENSION IF NOT EXISTS vector;"
       - run: pytest tests/ -v
