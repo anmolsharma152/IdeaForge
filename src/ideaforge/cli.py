@@ -252,9 +252,10 @@ def list_sessions(workflow: str | None, limit: int):
 @click.option("--workflow", "-w", default=None, help="Filter by workflow")
 def metrics(workflow: str | None):
     """Show aggregate metrics across all stored ideas."""
-    from ideaforge.db.schema import ensure_schema
-    from ideaforge.db.engine import get_async_engine
     from sqlalchemy import text
+
+    from ideaforge.db.engine import get_async_engine
+    from ideaforge.db.schema import ensure_schema
 
     ensure_schema()
 

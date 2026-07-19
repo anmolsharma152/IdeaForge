@@ -1,13 +1,20 @@
 """Shared test fixtures."""
 
 import os
+
 import pytest
 
 
 @pytest.fixture(autouse=True)
 def _test_env(monkeypatch):
-    """Set test-safe env vars so Settings never reads a real .env."""
-    monkeypatch.setenv("DATABASE_URL", "postgresql+psycopg://anmol@localhost:5432/ideaforge_test")
+    """Set test-safe env vars so Settings never reads a real .env.
+
+    Respects DATABASE_URL if already set (e.g. in CI).
+    """
+    if "DATABASE_URL" not in os.environ:
+        monkeypatch.setenv(
+            "DATABASE_URL", "postgresql+psycopg://anmol@localhost:5432/ideaforge_test"
+        )
     monkeypatch.setenv("LLM_PROVIDER", "groq")
     monkeypatch.setenv("LLM_MODEL", "llama-3.1-8b-instant")
     monkeypatch.setenv("GROQ_API_KEY", "test-key")

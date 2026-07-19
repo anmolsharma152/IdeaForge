@@ -1,6 +1,7 @@
 """Test database schema creation and basic operations."""
 
 import uuid
+
 from sqlalchemy import text
 
 from ideaforge.db.engine import get_sync_engine

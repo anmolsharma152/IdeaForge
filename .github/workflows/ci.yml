@@ -34,7 +34,7 @@ jobs:
           --health-timeout=5s
           --health-retries=5
     env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/ideaforge_test
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/ideaforge_test
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
     steps:
       - uses: actions/checkout@v4
