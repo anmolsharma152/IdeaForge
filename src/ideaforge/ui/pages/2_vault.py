@@ -1,7 +1,9 @@
 """Streamlit UI — Idea Vault."""
 
 import asyncio
+
 import streamlit as st
+
 from ideaforge.db.schema import ensure_schema
 from ideaforge.memory.store import get_connections, list_ideas, search_similar
 

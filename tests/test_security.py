@@ -1,6 +1,7 @@
 """Test security hardening functions, prompt injection mitigation, and key validation."""
 
 import pytest
+
 from ideaforge.llm.providers import create_provider
 from ideaforge.utils.security import sanitize_prompt_input, validate_input_length
 

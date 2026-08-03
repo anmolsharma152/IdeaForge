@@ -2,6 +2,7 @@
 
 import pytest
 from fastapi.testclient import TestClient
+
 from ideaforge.api import app
 from ideaforge.db.schema import ensure_schema
 

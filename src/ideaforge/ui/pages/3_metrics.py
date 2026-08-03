@@ -1,9 +1,11 @@
 """Streamlit UI — Metrics & Analytics Dashboard."""
 
 import asyncio
+
 import pandas as pd
 import plotly.express as px
 import streamlit as st
+
 from ideaforge.db.schema import ensure_schema
 from ideaforge.memory.store import list_ideas, list_sessions
 

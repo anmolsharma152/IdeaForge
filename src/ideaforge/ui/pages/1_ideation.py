@@ -1,7 +1,9 @@
 """Streamlit UI — Ideation Studio."""
 
 import asyncio
+
 import streamlit as st
+
 import ideaforge.workflows  # noqa: F401
 from ideaforge.db.schema import ensure_schema
 from ideaforge.graph.build import build_graph
