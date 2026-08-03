@@ -29,8 +29,10 @@ Origin thread: [ORIGIN.md](./ORIGIN.md).
 | **Error resilience** | Retry on rate limits/5xx, fallback scores on LLM failure |
 | **Web search** | DuckDuckGo grounding in diverge phase (first iteration) |
 | **Workflows** | 3 templates: research, product, learning |
-| **CLI** | `run/list/show/search/connect/sessions/metrics` |
-| **Tests** | `test_db.py` — schema creation + CRUD |
+| **CLI & Web App** | `ideaforge run/list/search/metrics` and `ideaforge web` (HTML5/CSS3/JS SPA + FastAPI) |
+| **Tests** | 50 tests across unit, integration, LLM, security, and API endpoints |
+| **Security Hardening** | Prompt injection defense, input sanitization, API key validation |
+| **Documentation** | Architectural spec, design doc, and [security_and_observability.md](./security_and_observability.md) |
 | **ADR** | `docs/decisions/001-langgraph-and-postgres.md` |
 | **Runtime** | Verified end-to-end — Groq Llama 3.3 70B + fastembed BAAI/bge-small-en-v1.5 |
 
