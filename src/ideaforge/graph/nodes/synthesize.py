@@ -39,10 +39,12 @@ async def synthesize_node(state: AgentState) -> dict:
             ),
         }
 
-    provider = create_provider()
+    from ideaforge.utils.security import sanitize_prompt_input
 
+    provider = create_provider()
+    goal_clean = sanitize_prompt_input(goal, max_length=500)
     best_text = "\n\n".join(
-        f"[Rank {rank+1}] {candidates[idx]['title']}: {candidates[idx]['body']}"
+        f"[Rank {rank+1}] {sanitize_prompt_input(candidates[idx]['title'], 100)}: {sanitize_prompt_input(candidates[idx]['body'], 500)}"
         for rank, idx in enumerate(best_indices)
         if idx < len(candidates)
     )
@@ -53,7 +55,7 @@ async def synthesize_node(state: AgentState) -> dict:
                 {
                     "role": "user",
                     "content": SYNTHESIZE_PROMPT.format(
-                        goal=goal, candidates_text=best_text
+                        goal=goal_clean, candidates_text=best_text
                     ),
                 }
             ],

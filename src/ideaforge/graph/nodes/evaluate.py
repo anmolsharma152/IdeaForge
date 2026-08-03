@@ -35,12 +35,15 @@ async def evaluate_node(state: AgentState) -> dict:
     if not candidates:
         return {"next_step": "stop", "scores": [], "best_indices": []}
 
-    # LLM-based evaluation with fallback
+    from ideaforge.utils.security import sanitize_prompt_input
+
     provider = create_provider()
+    goal_clean = sanitize_prompt_input(goal, max_length=500)
     candidates_text = "\n\n".join(
-        f"[{i+1}] {c['title']}: {c['body']}" for i, c in enumerate(candidates)
+        f"[{i+1}] {sanitize_prompt_input(c['title'], 100)}: {sanitize_prompt_input(c['body'], 500)}"
+        for i, c in enumerate(candidates)
     )
-    prompt = EVAL_PROMPT.format(goal=goal, candidates_text=candidates_text)
+    prompt = EVAL_PROMPT.format(goal=goal_clean, candidates_text=candidates_text)
 
     try:
         result = await provider.complete(

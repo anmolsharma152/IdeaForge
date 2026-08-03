@@ -39,10 +39,12 @@ async def diverge_node(state: AgentState) -> dict:
 
     existing_titles = [c["title"] for c in state.get("candidates", [])]
 
+    from ideaforge.utils.security import sanitize_prompt_input
+
     # On first iteration, search the web for grounding context
     search_context = ""
     if iteration == 1:
-        goal = state.get("goal", "")
+        goal = sanitize_prompt_input(state.get("goal", ""), max_length=500)
         try:
             with ThreadPoolExecutor(max_workers=1) as pool:
                 results = pool.submit(web_search, goal).result(timeout=10)
@@ -50,13 +52,14 @@ async def diverge_node(state: AgentState) -> dict:
         except Exception:
             log.warning("Web search timed out or failed")
 
-    context = state.get("context", "")
+    context = sanitize_prompt_input(state.get("context", ""), max_length=3000)
     if search_context:
         context = f"{context}\n\n{search_context}"
 
     prompt = MUSE_PROMPT.format(context=context, count=count)
     if existing_titles:
-        prompt += f"\n\nAVOID these ideas already generated: {', '.join(existing_titles)}"
+        clean_titles = [sanitize_prompt_input(t, max_length=100) for t in existing_titles]
+        prompt += f"\n\nAVOID these ideas already generated: {', '.join(clean_titles)}"
 
     try:
         result = await provider.complete(

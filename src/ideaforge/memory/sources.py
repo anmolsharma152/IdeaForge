@@ -18,7 +18,7 @@ def web_search(query: str, max_results: int = MAX_RESULTS) -> list[dict]:
     Returns list of {"title": str, "snippet": str, "url": str}.
     """
     try:
-        from duckduckgo_search import DDGS
+        from ddgs import DDGS
 
         with DDGS() as ddgs:
             results = list(ddgs.text(query, max_results=max_results))
@@ -39,9 +39,13 @@ def format_search_context(results: list[dict]) -> str:
     """Format search results into a context string for the LLM prompt."""
     if not results:
         return ""
+    from ideaforge.utils.security import sanitize_prompt_input
+
     lines = ["Recent research and context:"]
     for i, r in enumerate(results, 1):
-        lines.append(f"  {i}. {r['title']}")
-        if r["snippet"]:
-            lines.append(f"     {r['snippet'][:200]}")
+        title = sanitize_prompt_input(r.get("title", ""), max_length=150)
+        snippet = sanitize_prompt_input(r.get("snippet", ""), max_length=250)
+        lines.append(f"  {i}. {title}")
+        if snippet:
+            lines.append(f"     {snippet}")
     return "\n".join(lines)

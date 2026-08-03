@@ -126,4 +126,10 @@ def create_provider(provider: str | None = None, model: str | None = None) -> LL
         base_url = "https://api.groq.com/openai/v1"
         model = model or "llama-3.3-70b-versatile"
 
+    if not api_key or not api_key.strip():
+        raise ValueError(
+            f"API key for LLM provider '{provider}' is missing or empty. "
+            f"Please set the corresponding environment variable (e.g. GROQ_API_KEY, OPENAI_API_KEY, GEMINI_API_KEY) or define it in .env."
+        )
+
     return OpenAICompatible(api_key=api_key, base_url=base_url, model=model)
