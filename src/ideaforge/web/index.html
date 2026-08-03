@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IdeaForge ⚡ — Autonomous Creative Synthesis Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-glow"></div>
+
+    <header class="app-header">
+        <div class="logo-container">
+            <span class="logo-icon">⚡</span>
+            <div class="logo-text">
+                <h1>IdeaForge</h1>
+                <span class="version-tag">v0.1.0</span>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <button class="nav-btn active" data-tab="tab-ideation">
+                <span class="icon">🎨</span> Ideation Studio
+            </button>
+            <button class="nav-btn" data-tab="tab-vault">
+                <span class="icon">🧠</span> Idea Vault
+            </button>
+            <button class="nav-btn" data-tab="tab-metrics">
+                <span class="icon">📊</span> MLOps Metrics
+            </button>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <!-- TAB 1: IDEATION STUDIO -->
+        <section id="tab-ideation" class="tab-panel active">
+            <div class="panel-header">
+                <h2>Autonomous Ideation Studio</h2>
+                <p>Run dual-process ideation loops to generate, evaluate, and synthesize novel ideas with web search grounding.</p>
+            </div>
+
+            <div class="ideation-grid">
+                <div class="glass-card form-card">
+                    <h3>Configure Workflow</h3>
+                    <form id="ideation-form">
+                        <div class="form-group">
+                            <label for="workflow-select">Workflow Template</label>
+                            <select id="workflow-select" required>
+                                <option value="general">Loading workflows...</option>
+                            </select>
+                            <small id="workflow-desc" class="form-help">Select a domain workflow template.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="goal-input">Creative Goal / Prompt</label>
+                            <textarea id="goal-input" rows="4" placeholder="e.g. Novel non-obvious approaches to protein folding using cross-domain analogies from network routing..." required></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="muses-slider">Muses per Round (<span id="muses-val">5</span>)</label>
+                                <input type="range" id="muses-slider" min="2" max="10" value="5">
+                            </div>
+                            <div class="form-group">
+                                <label for="rounds-slider">Max Rounds (<span id="rounds-val">3</span>)</label>
+                                <input type="range" id="rounds-slider" min="1" max="5" value="3">
+                            </div>
+                        </div>
+
+                        <button type="submit" id="run-btn" class="btn btn-primary">
+                            <span class="btn-text">🚀 Run Synthesis Loop</span>
+                            <span class="spinner hidden"></span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="results-column">
+                    <div id="status-card" class="glass-card status-card hidden">
+                        <div class="status-indicator">
+                            <div class="pulse-ring"></div>
+                            <span id="status-text">Initializing dual-process graph...</span>
+                        </div>
+                    </div>
+
+                    <div id="synthesized-card" class="glass-card result-card hidden">
+                        <div class="card-badge">Synthesized Output</div>
+                        <h2 id="result-title">Synthesized Idea</h2>
+                        <p id="result-body" class="idea-body"></p>
+                        <div id="result-tags" class="tags-container"></div>
+                        <div class="result-meta">
+                            <span id="result-id" class="meta-item"></span>
+                            <span id="result-notes" class="meta-item"></span>
+                        </div>
+                    </div>
+
+                    <div id="candidates-container" class="candidates-wrapper hidden">
+                        <h3>Generated Candidates & Evaluation Scores</h3>
+                        <div id="candidates-grid" class="candidates-grid"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: IDEA VAULT -->
+        <section id="tab-vault" class="tab-panel">
+            <div class="panel-header">
+                <h2>Idea Vault & Memory Graph</h2>
+                <p>Search vector-indexed idea memories and trace bidirectional relationships across sessions.</p>
+            </div>
+
+            <div class="glass-card search-card">
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Semantic similarity search query (e.g. quantum graph neural networks)...">
+                    <button id="search-btn" class="btn btn-secondary">Search Vault</button>
+                </div>
+            </div>
+
+            <div id="vault-ideas-list" class="vault-grid">
+                <div class="loading-placeholder">Loading idea store...</div>
+            </div>
+        </section>
+
+        <!-- TAB 3: MLOPS METRICS -->
+        <section id="tab-metrics" class="tab-panel">
+            <div class="panel-header">
+                <h2>MLOps & Compounding Memory Metrics</h2>
+                <p>Analyze novelty scores, session counts, and system performance over time.</p>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="glass-card metric-summary">
+                    <span class="metric-title">Total Ideation Sessions</span>
+                    <span id="metric-sessions" class="metric-value">0</span>
+                </div>
+                <div class="glass-card metric-summary">
+                    <span class="metric-title">Total Stored Ideas</span>
+                    <span id="metric-ideas" class="metric-value">0</span>
+                </div>
+                <div class="glass-card metric-summary">
+                    <span class="metric-title">Avg Novelty Score</span>
+                    <span id="metric-novelty" class="metric-value">0.00</span>
+                </div>
+            </div>
+
+            <div class="charts-row">
+                <div class="glass-card chart-card">
+                    <h3>Workflow Breakdown</h3>
+                    <div id="workflow-chart" class="chart-container"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <p>IdeaForge — Persistent Creative Synthesis Engine | Designed with Vanilla HTML/CSS/JS</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

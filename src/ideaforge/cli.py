@@ -332,5 +332,18 @@ def metrics(workflow: str | None):
         console.print(f"  Overall:    {avgs['overall']:.3f}")
 
 
+@main.command()
+@click.option("--host", default="127.0.0.1", help="Host address to bind server")
+@click.option("--port", default=8000, help="Port to run web application server on")
+def web(host: str, port: int):
+    """Launch the IdeaForge Web Application (HTML/CSS/JS Frontend + REST API)."""
+    import uvicorn
+    from ideaforge.api import app
+
+    console.print(f"\n[bold cyan]IdeaForge Web Application[/bold cyan]")
+    console.print(f"Server running at [bold green]http://{host}:{port}[/bold green]\n")
+    uvicorn.run(app, host=host, port=port)
+
+
 if __name__ == "__main__":
     main()
