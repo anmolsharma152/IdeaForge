@@ -20,9 +20,11 @@ dependencies = [
     "pydantic>=2.0",
     "pydantic-settings>=2.0",
     "openai>=1.0",
-    "duckduckgo-search>=6.0",
+    "ddgs>=9.0",
     "python-dotenv>=1.0",
     "rich>=13.0",
+    "fastapi>=0.110.0",
+    "uvicorn>=0.28.0",
 ]
 
 [project.optional-dependencies]
@@ -30,6 +32,12 @@ dev = [
     "pytest>=8.0",
     "pytest-asyncio>=0.24",
     "ruff>=0.5",
+    "httpx>=0.27",
+]
+ui = [
+    "streamlit>=1.35",
+    "pandas>=2.0",
+    "plotly>=5.20",
 ]
 
 [project.scripts]
@@ -49,3 +57,8 @@ ignore = ["E501"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+markers = [
+    "unit: Unit tests.",
+    "integration: Integration tests requiring database.",
+    "llm: Tests involving LLM providers (mocked or real).",
+]
